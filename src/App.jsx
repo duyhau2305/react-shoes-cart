@@ -1,4 +1,3 @@
-import React from "react";
 import ProductItem from "./pages/ProductItem";
 import CartItem from "./pages/CartItem";
 

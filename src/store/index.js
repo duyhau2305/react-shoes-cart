@@ -5,6 +5,6 @@ import { appReducer } from '../redux/app.slice';
 
 export const store = configureStore({
   reducer: {
-    appReducer
+    app: appReducer
   },
 })

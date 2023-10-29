@@ -1,32 +1,58 @@
-import React from "react";
 
+import React from 'react';
+import { useDispatch } from 'react-redux';
+// var randomColor = require('randomcolor'); // ese5\
+import randomColor from 'randomcolor'; // es6
+
+import Image from "../components/Image";
+import Button from "../components/Button";
+
+// actions
+import { addToCart } from '../redux/app.slice';
 
 function ProductItem() {
+  const [products, setProducts] = React.useState([]);
+  //  hooks
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    fetch('https://fakestoreapi.com/products')
+      .then(json => json.json())
+      .then(data => setProducts(data))
+  }, [])
+
+  function handleAddToCart(productItem) {
+    dispatch(addToCart(productItem));
+  }
+
   return (
-    <div className="shopItem">
-      <div
-        className="shopItem_image"
-        style={{ backgroundColor: "rgb(212, 215, 214)" }}
-      >
-        <img
-          alt=""
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1315882/air-zoom-pegasus-36-mens-running-shoe-wide-D24Mcz-removebg-preview.png"
-        />
-      </div>
-      <div className="shopItem_name">Nike Air Zoom Pegasus 36</div>
-      <div className="shopItem_description">
-        The iconic Nike Air Zoom Pegasus 36 offers more cooling and mesh that
-        targets breathability across high-heat areas. A slimmer heel collar and
-        tongue reduce bulk, while exposed cables give you a snug fit at higher
-        speeds.
-      </div>
-      <div className="shopItem_bottom">
-        <div className="shopItem_price">$108.97</div>
-        <div className="shopItem_button">
-          <p>ADD TO CART</p>
+    <>
+      {products.map(product => (
+        <div key={product.id} className="shopItem">
+          <Image
+            className="shopItem_image"
+            src={product.image}
+            bgColor={randomColor({
+              luminosity: 'random',
+              hue: 'random'
+            })}
+          />
+          <div className="shopItem_name">{product.title}</div>
+          <div className="shopItem_description">
+            {product.description}
+          </div>
+          <div className="shopItem_bottom">
+            <div className="shopItem_price">${product.price}</div>
+            <Button 
+              buttonText="ADD TO CART"
+              className="shopItem_button"
+              onClick={() => handleAddToCart(product)}
+            /> 
+          </div>
         </div>
-      </div>
-    </div>
+      ))}
+    </>
+    
   );
 }
 

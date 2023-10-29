@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isLoading: false
+  isLoading: false,
+  carts: []
 };
 
 const appSlice = createSlice({
@@ -10,10 +11,13 @@ const appSlice = createSlice({
   reducers: {
     setLoading: (state, { payload }) => {
       state.isLoading = payload;
+    },
+    addToCart: (state, { payload }) => {
+      state.carts.push(payload);
     }
   }
 })
 
-export const { setLoading } = appSlice.actions;
+export const { setLoading, addToCart } = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

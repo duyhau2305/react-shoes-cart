@@ -93,7 +93,7 @@ body {
 }
 
 .cardBody {
-  height: calc(100% - 98px);
+  height: calc(100% - 140px);
   position: relative;
   overflow-y: auto;
 }
@@ -164,7 +164,6 @@ body {
 
 .shopItem_button {
   cursor: pointer;
-  background-color: #f6c90e;
   font-weight: 700;
   font-size: 14px;
   box-sizing: border-box;
@@ -200,15 +199,21 @@ body {
   width: 90px;
   height: 90px;
   border-radius: 100%;
-  background-color: rgb(77, 49, 127);
   margin-right: 34px;
+  position: relative;
 }
 
 .cardItem_image img {
   display: block;
   width: 140%;
-  transform: rotate(-28deg) translateY(-40px);
-  filter: drop-shadow(0 30px 20px rgba(0, 0, 0, 0.2));
+  object-fit: cover;
+  border-radius: 100%;
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(0deg) translate(-50%, -50%);
 }
 
 .cardItem_name {
