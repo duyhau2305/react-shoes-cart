@@ -294,3 +294,8 @@ body {
 .cardItem_right {
   width: 100%;
 }
+.shopItem_button.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
