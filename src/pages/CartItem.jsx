@@ -23,7 +23,7 @@ function CartItem() {
 
   const total = React.useMemo(() => {
     if(carts.length === 0) return 0;
-    
+
     const number = carts.reduce((acc, cart) => {
       return acc + cart.price * cart.quantity
     }, 0)
@@ -44,8 +44,12 @@ function CartItem() {
         <span>Your cart</span>
         <span className="card_amount">${total}</span>
       </div>
+
       
        <div className="cardBody">
+
+        <div>Please login to shopping.</div>
+
         {carts.map((cart) => (
           <div key={cart.id} className="cardItem">
             <div className="cardItem_left">

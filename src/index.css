@@ -299,3 +299,16 @@ body {
   pointer-events: none;
 }
 
+
+.dashboard {
+  display: flex;
+  align-items: center;    
+  justify-content: space-between;    
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.btnAction {
+  text-align: right;
+  width: 100%;
+}

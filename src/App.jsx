@@ -5,26 +5,32 @@ function App() {
 
   return (
     <div className="mainContent">
-      <div className="card">
-        <div className="cardTop">
-          <img
-            alt=""
-            src="https://cdn-icons-png.flaticon.com/512/732/732084.png"
-          />
+      <div className="btnAction">
+        <button type="button">Login</button>
+      </div>
+      <div className="dashboard">
+        <div className="card">
+          <div className="cardTop">
+            <img
+              alt=""
+              src="https://cdn-icons-png.flaticon.com/512/732/732084.png"
+            />
+          </div>
+
+          <div className="cardTitle">Our Products</div>
+
+          <div className="cardBody">
+            <ProductItem />
+            <ProductItem />
+          </div>
         </div>
 
-        <div className="cardTitle">Our Products</div>
-
-        <div className="cardBody">
-          <ProductItem />
-          <ProductItem />
+        {/* cart */}
+        <div className="card">
+          <CartItem />
         </div>
       </div>
 
-      {/* cart */}
-      <div className="card">
-        <CartItem />
-      </div>
     </div>
   );
 }
