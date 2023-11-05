@@ -1,10 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
-  carts: []
+  carts: [],
+  products: []
 };
 
+// async thunk
+export const fetchProductsAsync = createAsyncThunk(
+  'app/fetchProductsAsync',
+  async () => {
+    const response = await fetch('https://fakestoreapi.com/products'); 
+    const data = await response.json();
+    return data;
+  }
+)
+
+// slices
 const appSlice = createSlice({
   name: 'app',
   initialState,
@@ -16,9 +28,7 @@ const appSlice = createSlice({
       state.carts.push(payload);
     },
     removeFromCart: (state, action) => {
-      console.log('Current carts before removal: ', state.carts);
       state.carts = state.carts.filter(cartItem => cartItem.id !== action.payload);
-      console.log('Current carts after removal: ', state.carts);
     },
     incrementQuantity: (state, { payload }) => {
       const item = state.carts.find(item => item.id === payload);
@@ -35,6 +45,19 @@ const appSlice = createSlice({
         }
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProductsAsync.pending, (state, action) => {
+        console.log('Pending: ', action);
+      })
+      .addCase(fetchProductsAsync.fulfilled, (state, action) => {
+        console.log('fulfilled: ', action);
+        state.products = action.payload
+      })
+      .addCase(fetchProductsAsync.rejected, (state, action) => {
+        console.log('rejected: ', action);
+      })
   }
 })
 

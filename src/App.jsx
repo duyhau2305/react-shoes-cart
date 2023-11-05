@@ -1,7 +1,6 @@
 import ProductItem from "./pages/ProductItem";
 import CartItem from "./pages/CartItem";
 
-
 function App() {
   return (
     <div className="mainContent">

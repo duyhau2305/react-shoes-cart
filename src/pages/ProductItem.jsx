@@ -4,23 +4,25 @@ import randomColor from 'randomcolor';
 
 import Image from "../components/Image";
 import Button from "../components/Button";
-import { addToCart } from '../redux/app.slice';
+import { addToCart, fetchProductsAsync } from '../redux/app.slice';
 
 function ProductItem() {
-  const [products, setProducts] = React.useState([]);
   const dispatch = useDispatch();
   const cartItems = useSelector(state => state.app.carts); // This will get the cart items from the state
+  const products = useSelector(state => state.app.products); // This will get the cart items from the state
 
   React.useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
-      .then(res => res.json())
-      .then(data => setProducts(data))
-      .catch(error => {
-        console.error('Error fetching products:', error);
-      });
-  }, []);
+    // fetch('https://fakestoreapi.com/products')
+    //   .then(res => res.json())
+    //   .then(data => setProducts(data))
+    //   .catch(error => {
+    //     console.error('Error fetching products:', error);
+    //   });
+    dispatch(fetchProductsAsync());
+  }, [dispatch]);
 
   function handleAddToCart(productItem) {    
+    console.log('handleAddToCart', productItem)
     if (!cartItems.some(item => item.id === productItem.id)) {
       dispatch(addToCart(productItem));
     }
