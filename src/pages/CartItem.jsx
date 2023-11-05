@@ -1,6 +1,6 @@
 
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../redux/app.slice";
+import { removeFromCart,incrementQuantity, decrementQuantity } from "../redux/app.slice";
 
 import Button from "../components/Button";
 import Image from "../components/Image";
@@ -14,6 +14,14 @@ function CartItem() {
   };
 
   console.log('carts', carts);
+  const handleIncrement = (id) => {
+    dispatch(incrementQuantity(id));
+  };
+
+  const handleDecrement = (id) => {
+    dispatch(decrementQuantity(id));
+  };
+
 
   return (
     <>
@@ -41,9 +49,9 @@ function CartItem() {
               <div className="cardItem_price">${cart.price}</div>
               <div className="cartItem_actions">
                 <div className="cartItem_count">
-                  <div className="cartItem_button">-</div>
+                  <div className="cartItem_button" onClick={() => handleDecrement(cart.id)}>-</div>
                   <div className="cartItem_number">1</div>
-                  <div className="cartItem_button">+</div>
+                  <div className="cartItem_button" onClick={() => handleIncrement(cart.id)}>+</div>
                 </div>
                 <div className="carItem_remove">
                   <Button

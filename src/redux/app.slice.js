@@ -32,17 +32,23 @@ const appSlice = createSlice({
     },
     incrementQuantity: (state, { payload }) => {
       const item = state.carts.find(item => item.id === payload);
-      if (item) {
+      console.log(item);
+      if (item ) {
         item.quantity += 1;
+      } else {        
+       
       }
     },
     decrementQuantity: (state, { payload }) => {
       const item = state.carts.find(item => item.id === payload);
-      if (item) {
+      console.log(item); 
+      if (item && item.quantity > 1) {
         item.quantity -= 1;
-        if (item.quantity < 1) {
-          state.carts = state.carts.filter(cartItem => cartItem.id !== payload);
-        }
+      } else if (item) {
+        
+        state.carts = state.carts.filter(cartItem => cartItem.id !== payload);
+      } else {        
+        
       }
     },
   },
