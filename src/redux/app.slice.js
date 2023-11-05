@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -25,48 +26,45 @@ const appSlice = createSlice({
       state.isLoading = payload;
     },
     addToCart: (state, { payload }) => {
-      state.carts.push(payload);
+      const item = {
+        ...payload,
+        quantity: 1
+      }
+      state.carts.push(item);
     },
     removeFromCart: (state, action) => {
       state.carts = state.carts.filter(cartItem => cartItem.id !== action.payload);
     },
-    incrementQuantity: (state, { payload }) => {
-      const item = state.carts.find(item => item.id === payload);
-      console.log(item);
-      if (item ) {
-        item.quantity += 1;
-      } else {        
-       
+    changeQuantity: (state, { payload }) => {
+      const clonedCarts = [...state.carts]; // shallow clone
+      const cartIndex = clonedCarts.findIndex(item => item.id === payload.id);
+      if(cartIndex < 0) return;
+
+      if(payload.type === 'increment') {
+        clonedCarts[cartIndex].quantity = (clonedCarts[cartIndex].quantity ?? 0)  + 1;
       }
-    },
-    decrementQuantity: (state, { payload }) => {
-      const item = state.carts.find(item => item.id === payload);
-      console.log(item); 
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
-      } else if (item) {
-        
-        state.carts = state.carts.filter(cartItem => cartItem.id !== payload);
-      } else {        
-        
+      if(payload.type === 'decrement') {
+        clonedCarts[cartIndex].quantity = (clonedCarts[cartIndex].quantity ?? 0)  - 1;
       }
+
+      state.carts = clonedCarts;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductsAsync.pending, (state, action) => {
-        console.log('Pending: ', action);
+        // console.log('Pending: ', action);
       })
       .addCase(fetchProductsAsync.fulfilled, (state, action) => {
-        console.log('fulfilled: ', action);
+        // console.log('fulfilled: ', action);
         state.products = action.payload
       })
       .addCase(fetchProductsAsync.rejected, (state, action) => {
-        console.log('rejected: ', action);
+        // console.log('rejected: ', action);
       })
   }
 })
 
-export const { setLoading, addToCart, removeFromCart, incrementQuantity, decrementQuantity} = appSlice.actions;
+export const { setLoading, addToCart, removeFromCart, changeQuantity} = appSlice.actions;
 
 export const appReducer = appSlice.reducer;

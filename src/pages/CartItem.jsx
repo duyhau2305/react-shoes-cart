@@ -1,6 +1,6 @@
-
+import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart,incrementQuantity, decrementQuantity } from "../redux/app.slice";
+import { removeFromCart, changeQuantity } from "../redux/app.slice";
 
 import Button from "../components/Button";
 import Image from "../components/Image";
@@ -14,14 +14,21 @@ function CartItem() {
   };
 
   console.log('carts', carts);
-  const handleIncrement = (id) => {
-    dispatch(incrementQuantity(id));
+  const handleQuantity = (id, type) => {
+    dispatch(changeQuantity({
+      id,
+      type
+    }));
   };
 
-  const handleDecrement = (id) => {
-    dispatch(decrementQuantity(id));
-  };
-
+  const total = React.useMemo(() => {
+    if(carts.length === 0) return 0;
+    
+    const number = carts.reduce((acc, cart) => {
+      return acc + cart.price * cart.quantity
+    }, 0)
+    return number.toFixed(3)
+  }, [carts])
 
   return (
     <>
@@ -35,7 +42,7 @@ function CartItem() {
 
       <div className="cardTitle">
         <span>Your cart</span>
-        <span className="card_amount">$89.97</span>
+        <span className="card_amount">${total}</span>
       </div>
       
        <div className="cardBody">
@@ -49,9 +56,19 @@ function CartItem() {
               <div className="cardItem_price">${cart.price}</div>
               <div className="cartItem_actions">
                 <div className="cartItem_count">
-                  <div className="cartItem_button" onClick={() => handleDecrement(cart.id)}>-</div>
-                  <div className="cartItem_number">1</div>
-                  <div className="cartItem_button" onClick={() => handleIncrement(cart.id)}>+</div>
+                  <div className="cartItem_button" onClick={() => {
+                    handleQuantity(cart.id, 'decrement')
+                  }}>
+                    -
+                  </div>
+                  <div className="cartItem_number">
+                    {cart.quantity ||  1}
+                  </div>
+                  <div className="cartItem_button" onClick={() => {
+                    handleQuantity(cart.id, 'increment')
+                  }}>
+                    +
+                  </div>
                 </div>
                 <div className="carItem_remove">
                   <Button
